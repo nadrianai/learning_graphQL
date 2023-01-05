@@ -5,7 +5,7 @@ const Project = require('../models/Project')
 const Client = require('../models/Client')
 
 const { 
-    GraphQLObjectType, GraphQLID, GraphQLString, GraphQLSchema, GraphQLList
+    GraphQLObjectType, GraphQLID, GraphQLString, GraphQLSchema, GraphQLList, GraphQLNonNull
 } = require('graphql')
 
 //Client Type
@@ -69,7 +69,25 @@ const RootQuery = new GraphQLObjectType({
         }
     }
 })
+//mutations
+
+const mutation = new GraphQLObjectType({
+    name:"Mutation",
+    fields:{
+        addClient:{
+            type: ClientType,
+            args:{
+                name:{ type: GraphQLNonNull(GraphQLString)},
+                email:{ type: GraphQLNonNull(GraphQLString)},
+                phone:{ type: GraphQLNonNull(GraphQLString)},
+            }
+        }
+    }
+})
+
+
 
 module.exports = new GraphQLSchema({
-    query:RootQuery
+    query:RootQuery,
+    mutation
 })
